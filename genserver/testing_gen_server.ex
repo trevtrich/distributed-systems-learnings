@@ -14,6 +14,9 @@ defmodule ShoppingList do
   def view(pid) do
       GenServer.call(pid, :view)
   end
+  def stop(pid) do
+      GenServer.stop(pid, :normal, :infinity)
+  end
 
   # Server
   def handle_cast({:remove, item}, list) do
@@ -29,6 +32,11 @@ defmodule ShoppingList do
   end
   def init(list) do
     {:ok, list}
+  end
+  def terminate(_reason, list) do
+      IO.puts("Shuttin her down..")
+      IO.inspect(list)
+      :ok
   end
 
 #  def handle_call(_msg, _from, state) do
